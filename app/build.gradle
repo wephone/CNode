@@ -26,4 +26,6 @@ dependencies {
     compile 'com.android.support:design:23.0.1'
     //友盟统计组件
     compile 'com.umeng.analytics:analytics:latest.integration'
+    //viewpager indicator(指示符)
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }

@@ -8,6 +8,7 @@ import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by ASUS on 2016/3/15.
+ * activity基类，重写了几个activity方法
  */
 public class baseActivity extends AppCompatActivity {
     @Override
