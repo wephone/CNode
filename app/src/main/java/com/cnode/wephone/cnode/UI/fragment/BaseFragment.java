@@ -13,10 +13,10 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class BaseFragment extends Fragment {
     protected baseActivity sActivity;
-    private ProgressDialog progress;
+    private ProgressDialog progress;//进度条对话框
 
     @Override
-    public void onAttach(Activity activity) {//连接
+    public void onAttach(Activity activity) {//连接  当fragment和activity关联之后，调用这个方法。
         super.onAttach(activity);
         sActivity=(baseActivity) activity;
     }
@@ -39,7 +39,7 @@ public class BaseFragment extends Fragment {
         if (progress == null){
             progress = new ProgressDialog(sActivity);
         }
-        progress.onCommitting();//这特么递归？
+        progress.onCommitting();//这特么递归？ 不不不两个方法不一样 调用“正在显示对话框”
     }
     /**
      * 显示进度
@@ -60,7 +60,7 @@ public class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach() {//分离
         super.onDetach();
     }
 }
