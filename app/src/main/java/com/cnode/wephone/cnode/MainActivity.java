@@ -64,7 +64,7 @@ public class MainActivity extends baseActivity {
 
             @Override
             public void onDrawerOpened(View view) {
-                if (!TextUtils.isEmpty(App.getContext().access_token)) {
+                if (!TextUtils.isEmpty(App.getContext().access_token)) {//好像是取登录信息，回过头来细看
                     leftMenu.setUserInfo();
                 }
                 invalidateOptionsMenu();

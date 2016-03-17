@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.cnode.wephone.cnode.R;
 import com.cnode.wephone.cnode.Utils.ActivitySwitcher;
+import com.cnode.wephone.cnode.Utils.CommonUtils;
 import com.cnode.wephone.cnode.Utils.constant.Params;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -51,7 +52,7 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//界限
                 textView.setCompoundDrawables(drawable, null, null, null);//compound 复合
                 textView.setCompoundDrawablePadding(CommonUtils.dip2px(8));
-                textView.setHeight(CommonUtils.dip2px(50));
+                textView.setHeight(CommonUtils.dip2px(50));//设置高度50px
                 return textView;
             }
         });
@@ -74,7 +75,7 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
             }
         });
         TextView version = (TextView) view.findViewById(R.id.version);
-        version.setText(getString(R.string.version) + CommonUtils.getVersionInfo().versionName);//&#160 好像是空格
+        version.setText(getString(R.string.version) + CommonUtils.getVersionInfo().versionName);//&#160 好像是空格  packageinfo包含了版本信息
         return view;
     }
 
@@ -85,9 +86,9 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.user_info) {//如果点到了点击登录那一栏
-            if (!OauthHelper.needLogin()){
-                Bundle bundle = new Bundle();
-                bundle.putString(Params.LOGIN_NAME, loginname.getText().toString());
+            if (!OauthHelper.needLogin()){//如果需要登录  但下面的值不应该没登录的时候还是默认值吗？怎么还要传入bundle？
+                Bundle bundle = new Bundle();//若key不存在则返回缺省值
+                bundle.putString(Params.LOGIN_NAME, loginname.getText().toString());//key--value
                 bundle.putString(Params.AVATAR_URL, CommonUtils.getStringFromLocal(Params.AVATAR_URL));
                 ActivitySwitcher.pushFragment(sActivity, UserInfoFragment.class, bundle);
             } else {
