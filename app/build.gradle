@@ -28,4 +28,6 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     //viewpager indicator(指示符)
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    //图片下载
+    compile 'com.facebook.fresco:fresco:0.1.0'
 }

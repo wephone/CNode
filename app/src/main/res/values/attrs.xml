@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--左侧菜单图标-->
+    <array name="left_menu_icon">
+        <item>@drawable/icon_setting</item>
+        <item>@drawable/icon_share</item>
+        <item>@drawable/icon_about</item>
+    </array>
+
+    <!--左侧菜单-->
+    <string-array name="left_menu_title">
+        <item>@string/setting</item>
+        <item>@string/invite</item>
+        <item>@string/about</item>
+    </string-array>
+</resources>

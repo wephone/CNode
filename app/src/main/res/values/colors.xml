@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="action_bar_bg">#222</color>
     <color name="main_color">#82bb22</color>
+    <color name="left_menu">#4b4b4b</color>
+    <color name="item_left_menu">#444</color>
 </resources>
