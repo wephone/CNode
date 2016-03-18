@@ -13,8 +13,53 @@ import com.cnode.wephone.cnode.App;
  * 通用方法工具类
  */
 public class CommonUtils {
-    private final static Context APP_CONTEXT = App.getContext();//怎么感觉是得到了App类的实例对象  上下文有点不理解
+    private final static Context APP_CONTEXT = App.getContext();//怎么感觉是得到了App类的实例对象  上下文有点不理解  App继承于activity，所以可以用Context APP_CONTEXT
     //有人说Context可以理解为调用所在的环境。容器 承上启下
+
+
+    /**
+     * 保存信息
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public static boolean saveStringToLocal(String key, String value) {
+        SharedPreferences sharedPreferences = APP_CONTEXT.getSharedPreferences(key, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+        editor.putString(key, value);
+        return editor.commit();//提交修改
+    }
+
+    /**
+     * 保存信息
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public static boolean saveBooleanToLocal(String key, boolean value) {
+        SharedPreferences sharedPreferences = APP_CONTEXT.getSharedPreferences(key, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+        editor.putBoolean(key, value);
+        return editor.commit();//提交修改
+    }
+
+    /**
+     * 保存信息
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public static boolean saveIntToLocal(String key, int value) {
+        SharedPreferences sharedPreferences = APP_CONTEXT.getSharedPreferences(key, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+        editor.putInt(key, value);
+        return editor.commit();//提交修改
+    }
+
+
     /**
      * 读取信息
      *
@@ -27,8 +72,20 @@ public class CommonUtils {
         //默认操作模式，代表该文件是私有数据，只能被应用本身访问，在该模式下，写入的内容会覆盖原文件的内容，如果想把新写入的内容追加到原文件中，可以使用Activity.MODE_APPEND
         return sharedPreferences.getString(key, "");//SharedPreferences key-value存储  不懂getstring返回的是什么
         //getString()第二个参数为缺省值，如果preference中不存在该key，将返回缺省值
-        //这里只是访问SharedPreferences
+        //这里只是访问读取SharedPreferences而已 暂时没找到哪里写入SharedPreferences。。
     }
+
+    /**
+     * 读取信息
+     *
+     * @param key
+     * @return
+     */
+    public static boolean getBooleanFromLocal(String key, boolean defValue) {
+        SharedPreferences sharedPreferences = APP_CONTEXT.getSharedPreferences(key, Activity.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(key, defValue);
+    }
+
     /**
      * 根据手机分辨率从dp转成px
      *

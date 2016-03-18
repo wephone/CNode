@@ -1,5 +1,6 @@
 package com.cnode.wephone.cnode.UI.fragment;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -13,9 +14,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cnode.wephone.cnode.R;
-import com.cnode.wephone.cnode.Utils.ActivitySwitcher;
 import com.cnode.wephone.cnode.Utils.CommonUtils;
+import com.cnode.wephone.cnode.Utils.OauthHelper;
 import com.cnode.wephone.cnode.Utils.constant.Params;
+import com.cnode.wephone.cnode.Utils.volley.UrlHelper;
+import com.cnode.wephone.library_mylistview.CompatOnItemClickListener;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
@@ -24,18 +28,22 @@ import com.facebook.drawee.view.SimpleDraweeView;
  */
 public class LeftMenuFragment extends BaseFragment implements View.OnClickListener{
     private SimpleDraweeView avatar;//Facebook开发的图片加载库  暂时先跳过XML文件，有空学习下fresco相关文档
+//    private ImageView avatar;
     private TextView loginname;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_left_menu, container, false);
+//        Fresco.initialize(getActivity().getApplicationContext());
+        View view = inflater.inflate(R.layout.fragment_left_menu1, container, false);
+//        view.isInEditMode();
         view.findViewById(R.id.user_info).setOnClickListener(this);
         avatar = (SimpleDraweeView) view.findViewById(R.id.avatar);
+//        avatar = (ImageView) view.findViewById(R.id.avatar);
         loginname = (TextView) view.findViewById(R.id.loginname);
         setUserInfo();
         ListView listView = (ListView) view.findViewById(R.id.list_view);
-        //配置数组适配器
-        listView.setAdapter(new ArrayAdapter<String>(sActivity, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.left_menu_title)) {
+        //配置数组适配器  simple_list_item_1应该是自带默认item布局  这里我换了一个自己写的
+        listView.setAdapter(new ArrayAdapter<String>(sActivity, R.layout.simple_list_item, getResources().getStringArray(R.array.left_menu_title)) {
 
             //菜单图标 array--以array开头声名的XML文件，例如<attr name="only_animate_new_items" format="boolean" />
             //item不是应该textview+imageview吗 怎么只有textview  好像用setCompoundDrawables可以把textview和imageview复合
@@ -49,14 +57,16 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
                 textView.setBackgroundResource(R.drawable.item_left_menu_bg);
                 final Drawable drawable = icons.getDrawable(position);//返回drawable对象（图像，不是抽屉）
                 assert drawable != null;
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//界限
+                drawable.setBounds(0, 0, 85, 85);//界限 可能因为源码设置的simple_list_item_1应该是自带默认item布局 适配不一样，所以我设的值不一样，否则不好看
                 textView.setCompoundDrawables(drawable, null, null, null);//compound 复合
                 textView.setCompoundDrawablePadding(CommonUtils.dip2px(8));
                 textView.setHeight(CommonUtils.dip2px(50));//设置高度50px
                 return textView;
             }
         });
-        listView.setOnItemClickListener(new CompatOnItemClickListener() {//若点到了listview
+        listView.setOnItemClickListener(new CompatOnItemClickListener() {
+            //若点到了listview
+        // setOnItemClickListener是adapterview里的，所以CompatOnItemClickListener要实现adapterview接口
             @Override
             public void onItemClick(View view, int position) {
                 switch (position) {
@@ -90,7 +100,7 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
                 Bundle bundle = new Bundle();//若key不存在则返回缺省值
                 bundle.putString(Params.LOGIN_NAME, loginname.getText().toString());//key--value
                 bundle.putString(Params.AVATAR_URL, CommonUtils.getStringFromLocal(Params.AVATAR_URL));
-                ActivitySwitcher.pushFragment(sActivity, UserInfoFragment.class, bundle);
+//                ActivitySwitcher.pushFragment(sActivity, UserInfoFragment.class, bundle);
             } else {
                 OauthHelper.showLogin(sActivity);
             }
@@ -100,7 +110,7 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
      * 设置用户信息
      */
     public void setUserInfo(){
-        String name = CommonUtils.getStringFromLocal(Params.LOGIN_NAME);
+        String name = CommonUtils.getStringFromLocal(Params.LOGIN_NAME);//懂了，这里取值，Utils力有值就取，没值的话isempty（）返回 true--直接getstring到“点击登录”
         String avatar_url = CommonUtils.getStringFromLocal(Params.AVATAR_URL);
         avatar.setImageURI(Uri.parse(UrlHelper.resolve(UrlHelper.HOST, avatar_url)), sActivity);
         loginname.setText(TextUtils.isEmpty(name) ? getString(R.string.login) : name);

@@ -10,6 +10,8 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * Created by ASUS on 2016/3/17.
  * 全局程序类
+ * Manifest    <application
+   android:name=".App"
  */
 public class App extends Application {
     /**
@@ -29,21 +31,23 @@ public class App extends Application {
      */
     public String access_token;
     // 应用程序上下文
-    private static App instance;
+    private static App instance;//单立模式  全局只有这一个instance 不能再被new context出来
+    //context 理解为activity或者application
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+        Fresco.initialize(instance);//这里解析过Fresco了
+        access_token = CommonUtils.getStringFromLocal(Params.ACCESS_TOKEN);
+        //禁止默认统计
+        MobclickAgent.openActivityDurationTrack(false);//为毛这里禁止默认统计？
+    }
     /**
      * 静态方法返回程序上下文
      * @return
      */
     public static synchronized App getContext() {//不知道什么时候才应该用同步修饰符
         return instance;
-    }
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        instance = this;
-        Fresco.initialize(instance);
-        access_token = CommonUtils.getStringFromLocal(Params.ACCESS_TOKEN);
-        //禁止默认统计
-        MobclickAgent.openActivityDurationTrack(false);//为毛这里禁止默认统计？
     }
 }

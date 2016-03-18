@@ -1,5 +1,9 @@
 package com.cnode.wephone.cnode;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +22,7 @@ import android.view.MenuItem;
 import com.cnode.wephone.cnode.UI.baseActivity;
 import com.cnode.wephone.cnode.UI.fragment.LeftMenuFragment;
 import com.cnode.wephone.cnode.Utils.DoubleClickExitHelper;
+import com.cnode.wephone.cnode.Utils.constant.IntentAction;
 
 public class MainActivity extends baseActivity {
     //按两次返回键退出
@@ -33,19 +38,31 @@ public class MainActivity extends baseActivity {
         setContentView(R.layout.activity_main);
         doubleClickExitHelper = new DoubleClickExitHelper(this);
         initActionBarAndDrawer();
+        initLayout();
+        //所有控件加载完开始加载数据
+        IntentFilter filter = new IntentFilter(IntentAction.LOGIN);//隐式意图 通过过滤器识别intent指向哪个组件
+        filter.addAction(IntentAction.NEW_TOPIC);
+        registerReceiver(myReceiver, filter);//寄存器
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {//抽屉有打开且存在式
-//                toggleDrawer();
+                toggleDrawer();
                 return true;
             }
             return doubleClickExitHelper.onKeyDown(keyCode, event);//让另一个类去处理这个逻辑
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    private void initLayout(){
+        //左侧菜单
+        leftMenu = new LeftMenuFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.left_menu, leftMenu).commit();
+    }
+
     private void initActionBarAndDrawer(){//配置工具栏和抽屉
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,10 +81,10 @@ public class MainActivity extends baseActivity {
 
             @Override
             public void onDrawerOpened(View view) {
-                if (!TextUtils.isEmpty(App.getContext().access_token)) {//好像是取登录信息，回过头来细看
-                    leftMenu.setUserInfo();
+                if (!TextUtils.isEmpty(App.getContext().access_token)) {//好像是取登录信息，回过头来细看 抛BUG显示这里错
+                    leftMenu.setUserInfo();//若App.getContext().access_token 不为空则执行
                 }
-                invalidateOptionsMenu();
+                invalidateOptionsMenu();//废止
             }
 
             @Override
@@ -77,5 +94,31 @@ public class MainActivity extends baseActivity {
         };
         drawerToggle.syncState();//应该是同步状态的意思 同步drawer指示器
         drawerLayout.setDrawerListener(drawerToggle);
+    }
+    //切换抽屉菜单 如果关了就开 开了就关
+    private void toggleDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+    }
+    //广播监听器
+    private final BroadcastReceiver myReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {//通过传递intent来调用这个组件
+            final String action = intent.getAction();
+            if (action.equals(IntentAction.LOGIN)) {
+                leftMenu.setUserInfo();
+            } else if (action.equals(IntentAction.NEW_TOPIC)) {
+//                pagerAdapter.getItem(0).refresh(true);
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(myReceiver);
     }
 }
