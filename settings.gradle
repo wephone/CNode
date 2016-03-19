@@ -1,1 +1,1 @@
-include ':app', ':library-mylistview'
+include ':app', ':library-mylistview', ':library-qrcode'

@@ -1,6 +1,7 @@
 package com.cnode.wephone.cnode.UI;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 
@@ -10,7 +11,8 @@ import com.umeng.analytics.MobclickAgent;
  * Created by ASUS on 2016/3/15.
  * activity基类，重写了几个activity方法
  */
-public class baseActivity extends AppCompatActivity {
+public class baseActivity extends ActionBarActivity {//这里之前extends错了 应该是ActionBarActivity 才符合public CaptureView(ActionBarActivity activity)这个构造方法
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

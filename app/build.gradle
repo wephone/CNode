@@ -31,4 +31,5 @@ dependencies {
     //图片下载
     compile 'com.facebook.fresco:fresco:0.1.0'
     compile project(':library-mylistview')
+    compile project(':library-qrcode')
 }

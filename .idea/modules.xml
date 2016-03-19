@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/CNode.iml" filepath="$PROJECT_DIR$/CNode.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-mylistview/library-mylistview.iml" filepath="$PROJECT_DIR$/library-mylistview/library-mylistview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-qrcode/library-qrcode.iml" filepath="$PROJECT_DIR$/library-qrcode/library-qrcode.iml" />
     </modules>
   </component>
 </project>
