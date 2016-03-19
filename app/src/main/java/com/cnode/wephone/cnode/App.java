@@ -10,8 +10,9 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * Created by ASUS on 2016/3/17.
  * 全局程序类
- * Manifest    <application
+ * 记得声名 Manifest    <application
    android:name=".App"
+   每次打开应用就会调用这些方法
  */
 public class App extends Application {
     /**
@@ -29,7 +30,7 @@ public class App extends Application {
      * 用户名
      * 头像地址
      */
-    public String access_token;
+    public String access_token;//全局令牌  也是单立模式
     // 应用程序上下文
     private static App instance;//单立模式  全局只有这一个instance 不能再被new context出来
     //context 理解为activity或者application
@@ -39,7 +40,7 @@ public class App extends Application {
         super.onCreate();
         instance = this;
         Fresco.initialize(instance);//这里解析过Fresco了
-        access_token = CommonUtils.getStringFromLocal(Params.ACCESS_TOKEN);
+        access_token = CommonUtils.getStringFromLocal(Params.ACCESS_TOKEN);//先从sharepreference里取出 看看有没有上次的登陆信息 有的话 下次就不用登陆
         //禁止默认统计
         MobclickAgent.openActivityDurationTrack(false);//为毛这里禁止默认统计？
     }

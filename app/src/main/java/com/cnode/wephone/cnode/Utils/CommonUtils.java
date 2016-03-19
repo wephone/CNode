@@ -111,4 +111,19 @@ public class CommonUtils {
         }
         return null;
     }
+    /**
+     * 反射获取类
+     *
+     * @param className
+     * @return class
+     */
+    public static Class<?> getClassByString(String className) {
+        Class<?> cls = null;
+        try {
+            cls = Class.forName(className);//根据名字获取这个类的类类型 好像名字是要完整的包名.类名
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return cls;
+    }
 }

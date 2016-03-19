@@ -81,10 +81,12 @@ public class MainActivity extends baseActivity {
 
             @Override
             public void onDrawerOpened(View view) {
-                if (!TextUtils.isEmpty(App.getContext().access_token)) {//好像是取登录信息，回过头来细看 抛BUG显示这里错
-                    leftMenu.setUserInfo();//若App.getContext().access_token 不为空则执行
+                if (!TextUtils.isEmpty(App.getContext().access_token)) {//好像是取登录信息，应该这个方法是用于刚登陆后 改变Menu的
+                    leftMenu.setUserInfo();//若App.getContext().access_token 不为空--已登陆则执行
                 }
                 invalidateOptionsMenu();//废止
+                //当你要update你的menu时,必须调用invalidateOptionsMenu(),因为
+                //action bar是一直出现的。然后系统将调用onPrepareOptionsMenu()更改menu
             }
 
             @Override

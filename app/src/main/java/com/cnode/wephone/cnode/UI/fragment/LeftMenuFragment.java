@@ -34,7 +34,7 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 //        Fresco.initialize(getActivity().getApplicationContext());
-        View view = inflater.inflate(R.layout.fragment_left_menu1, container, false);
+        View view = inflater.inflate(R.layout.fragment_left_menu1, container, false);//App类里使用过了 Fresco.initialize（context）方法
 //        view.isInEditMode();
         view.findViewById(R.id.user_info).setOnClickListener(this);
         avatar = (SimpleDraweeView) view.findViewById(R.id.avatar);
@@ -96,7 +96,7 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.user_info) {//如果点到了点击登录那一栏
-            if (!OauthHelper.needLogin()){//如果需要登录  但下面的值不应该没登录的时候还是默认值吗？怎么还要传入bundle？
+            if (!OauthHelper.needLogin()){//如果不需要登录  将数据传入bundle
                 Bundle bundle = new Bundle();//若key不存在则返回缺省值
                 bundle.putString(Params.LOGIN_NAME, loginname.getText().toString());//key--value
                 bundle.putString(Params.AVATAR_URL, CommonUtils.getStringFromLocal(Params.AVATAR_URL));
@@ -113,6 +113,6 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
         String name = CommonUtils.getStringFromLocal(Params.LOGIN_NAME);//懂了，这里取值，Utils力有值就取，没值的话isempty（）返回 true--直接getstring到“点击登录”
         String avatar_url = CommonUtils.getStringFromLocal(Params.AVATAR_URL);
         avatar.setImageURI(Uri.parse(UrlHelper.resolve(UrlHelper.HOST, avatar_url)), sActivity);
-        loginname.setText(TextUtils.isEmpty(name) ? getString(R.string.login) : name);
+        loginname.setText(TextUtils.isEmpty(name) ? getString(R.string.login) : name);//name为空的话 设置为“点击登录”
     }
 }

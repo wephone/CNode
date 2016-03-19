@@ -9,7 +9,7 @@ import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by ASUS on 2016/3/15.
- * Fragment基类，如果子类注册了广播，则每个子类的类全名都是默认的广播action
+ * Fragment基类，如果子类注册了广播，则每个子类的类全名都是默认的广播action  ？？
  */
 public class BaseFragment extends Fragment {
     protected baseActivity sActivity;
