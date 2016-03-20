@@ -14,6 +14,7 @@ import com.cnode.wephone.library_qrcode.CaptureView;
 /**
  * Created by ASUS on 2016/3/19.
  * 二维码捕获类
+ * 准备弃用自己写的二维码扫描，Google下zxing使用 然后在ercode分支做
  */
 public class CaptureFragment extends BaseFragment implements CaptureView.OnCaptureListener{
 
