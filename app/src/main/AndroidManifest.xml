@@ -25,6 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".UI.activity.SingleFragmentActivity"
+            android:launchMode="standard"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"/>
         <meta-data android:value="56e7f02ee0f55a04d60011a1" android:name="UMENG_APPKEY"/>
         <meta-data android:value="wephone" android:name="UMENG_CHANNEL"/>
     </application>

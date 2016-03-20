@@ -2,10 +2,12 @@ package com.cnode.wephone.cnode.UI.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cnode.wephone.cnode.R;
 import com.cnode.wephone.cnode.Utils.CommonUtils;
 import com.cnode.wephone.library_qrcode.CaptureView;
 
@@ -28,6 +30,25 @@ public class CaptureFragment extends BaseFragment implements CaptureView.OnCaptu
 
     @Override
     public void onCapture(String result) {
+        if (!TextUtils.isEmpty(result)) {
+            oauth(result);
+        } else {
+            captureError();
+        }
+    }
 
+    //扫码失败
+    private void captureError() {
+        CommonUtils.showToast(R.string.failure);
+        captureView.restartPreview();
+    }
+
+    /**
+     * 验证访问令牌
+     *
+     * @param access_token 令牌
+     */
+    private void oauth(final String access_token) {
+        showProgress(R.string.on_login);
     }
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import com.cnode.wephone.cnode.App;
 
@@ -125,5 +127,29 @@ public class CommonUtils {
             e.printStackTrace();
         }
         return cls;
+    }
+    /**
+     * 获取屏幕宽度
+     *
+     * @param context
+     * @return
+     */
+    public static int getScreenWidth(Context context) {
+        DisplayMetrics metric = new DisplayMetrics();//度量
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(metric);
+        return metric.widthPixels;
+    }
+
+    /**
+     * 显示提示
+     *
+     * @param message
+     */
+    public static void showToast(String message) {
+        Toast.makeText(APP_CONTEXT, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static void showToast(int resId) {
+        Toast.makeText(APP_CONTEXT, resId, Toast.LENGTH_LONG).show();
     }
 }
