@@ -32,4 +32,5 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.1.0'
     compile project(':library-mylistview')
     compile project(':library-qrcode')
+    compile project(':library-swipeback')
 }

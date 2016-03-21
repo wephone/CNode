@@ -21,7 +21,7 @@ public class SimpleFactory {
     public static BaseFragment createFragment(String fragmentName, Bundle arguments){
         return createFragment(fragmentName, null, arguments);
     }
-    //创建一个fragment
+    //创建一个fragment 动态加载 根据名字反射加载 更活用
     public static BaseFragment createFragment(String fragmentName, String directoryName, Bundle arguments){
         StringBuilder path = new StringBuilder();
         path.append(BaseFragment.class.getPackage().getName());

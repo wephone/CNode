@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/library-mylistview" />
             <option value="$PROJECT_DIR$/library-qrcode" />
+            <option value="$PROJECT_DIR$/library-swipeback" />
           </set>
         </option>
       </GradleProjectSettings>

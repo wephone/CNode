@@ -152,4 +152,15 @@ public class CommonUtils {
     public static void showToast(int resId) {
         Toast.makeText(APP_CONTEXT, resId, Toast.LENGTH_LONG).show();
     }
+
+    /**
+     * 从sp转化到px
+     *
+     * @param spValue
+     * @return
+     */
+    public static int sp2px(float spValue) {
+        final float fontScale = APP_CONTEXT.getResources().getDisplayMetrics().density;
+        return (int) (spValue * fontScale + 0.5f);
+    }
 }

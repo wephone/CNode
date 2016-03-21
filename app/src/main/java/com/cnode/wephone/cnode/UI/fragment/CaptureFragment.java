@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.cnode.wephone.cnode.R;
 import com.cnode.wephone.cnode.Utils.CommonUtils;
-import com.cnode.wephone.library_qrcode.CaptureView;
+import com.zbar.lib.CaptureView;
 
 /**
  * Created by ASUS on 2016/3/19.
