@@ -128,10 +128,12 @@ public class MainActivity extends baseActivity implements ViewPager.OnPageChange
             Bundle bundle = new Bundle();
             bundle.putString(Params.TAB, columnTabs[i]);
             TopicListFragment fragment = (TopicListFragment) SimpleFactory.createFragment(TopicListFragment.class.getSimpleName(), bundle);////bundle用于argument 传值通信
+            //主内容fragment 不清楚怎样通过bundle做出5个的逻辑
             fragments.add(i, fragment);
         }
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        pagerAdapter = new ColumnPagerAdapter(getSupportFragmentManager(), fragments, getResources().getStringArray(R.array.column_title));
+        pagerAdapter = new ColumnPagerAdapter(getSupportFragmentManager(), fragments, getResources().getStringArray(R.array.column_title));//好像将数组fragments加入这里就可以达成，tab标签更改转换fragment[i]
+        //回头看ColumnPagerAdapter构造方法，理清fragments{i}和tabs
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(pagerAdapter.getCount() - 1);
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);

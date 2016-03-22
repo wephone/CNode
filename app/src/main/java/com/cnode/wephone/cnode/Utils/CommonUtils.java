@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 import com.cnode.wephone.cnode.App;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by ASUS on 2016/3/17.
  * 通用方法工具类
@@ -162,5 +166,61 @@ public class CommonUtils {
     public static int sp2px(float spValue) {
         final float fontScale = APP_CONTEXT.getResources().getDisplayMetrics().density;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    /**
+     * 获取时间格式
+     *
+     * @param format
+     * @param date
+     * @return
+     */
+    public static String getTimeFormat(String format, Date date) {
+        SimpleDateFormat f = new SimpleDateFormat(format);
+        return f.format(date);
+    }
+
+    /**
+     * 根据当前时间返回通俗时间值
+     *
+     * @param date
+     * @return
+     */
+    public static String commonTime(Date date) {
+        Calendar c = Calendar.getInstance();//calendar日历
+        c.setTime(date);
+        int y1 = c.get(Calendar.YEAR);
+        int d1 = c.get(Calendar.DAY_OF_YEAR);
+        long t1 = c.getTimeInMillis();//y d t1应该是该帖子发上去的时间 y d t2是当前最新时间
+        c.setTime(new Date());
+        int y2 = c.get(Calendar.YEAR);
+        int d2 = c.get(Calendar.DAY_OF_YEAR);
+        long t2 = c.getTimeInMillis();//据1970.1.1至今的毫秒数
+        int yearGap = y2 - y1;
+        int dayGap = d2 - d1; // 与现在时间相差天数
+        long timeGap = (t2 - t1) / 1000;//与现在时间相差秒数
+        String timeStr = "";
+        if (yearGap == 0) {//当年
+            if (dayGap == 0) {// 当天，直接显示时间
+                if (timeGap > 60 * 60 * 4){// 4小时-24小时
+                    timeStr = getTimeFormat("HH:mm", date);
+                } else if (timeGap > 60 * 60) {// 1小时-4小时
+                    timeStr = timeGap / (60 * 60) + "小时前";
+                } else if (timeGap > 60) {// 1分钟-59分钟
+                    timeStr = timeGap / 60 + "分钟前";
+                } else {// 1秒钟-59秒钟
+                    timeStr = "刚刚";
+                }
+            } else if (dayGap == 1) {// 昨天+时间
+                timeStr = "昨天 " + getTimeFormat("HH:mm", date);
+            } else if (dayGap == 2) {// 前天+时间
+                timeStr = "前天 " + getTimeFormat("HH:mm", date);
+            } else {// 大于3天，显示具体月日及时间
+                timeStr = getTimeFormat("MM-dd HH:mm", date);
+            }
+        } else {//非当年现实完整的年月日及时间
+            timeStr = getTimeFormat("yyyy-MM-dd", date);
+        }
+        return timeStr;
     }
 }

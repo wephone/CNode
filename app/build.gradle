@@ -24,10 +24,14 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
+    //网络请求
+    compile 'com.mcxiaoke.volley:library:1.0.15'
     //友盟统计组件
     compile 'com.umeng.analytics:analytics:latest.integration'
     //viewpager indicator(指示符)
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    //json解析
+    compile 'com.google.code.gson:gson:2.3.1'
     //图片下载
     compile 'com.facebook.fresco:fresco:0.1.0'
     compile project(':library-mylistview')

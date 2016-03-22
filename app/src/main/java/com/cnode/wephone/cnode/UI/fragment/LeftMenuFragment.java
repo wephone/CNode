@@ -18,9 +18,8 @@ import com.cnode.wephone.cnode.Utils.CommonUtils;
 import com.cnode.wephone.cnode.Utils.OauthHelper;
 import com.cnode.wephone.cnode.Utils.constant.Params;
 import com.cnode.wephone.cnode.Utils.volley.UrlHelper;
-import com.cnode.wephone.library_mylistview.CompatOnItemClickListener;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.iwhys.mylistview.CompatOnItemClickListener;
 
 /**
  * Created by ASUS on 2016/3/15.

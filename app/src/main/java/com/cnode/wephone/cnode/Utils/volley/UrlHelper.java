@@ -43,4 +43,12 @@ public class UrlHelper {
         }
         return builder.toString();
     }
+
+    /**
+     * 拼接出主题列表url
+     * @param params 参数
+     */
+    public static String getTopicsUrl(Map<String, Object> params){//params tab 15 page
+        return resolve(TOPICS, params);
+    }
 }

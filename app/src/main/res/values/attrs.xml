@@ -22,4 +22,12 @@
         <item>ask</item>
         <item>job</item>
     </string-array>
+    <!--栏目标题-->
+    <string-array name="column_title">
+        <item>@string/all</item>
+        <item>@string/good</item>
+        <item>@string/share</item>
+        <item>@string/ask</item>
+        <item>@string/job</item>
+    </string-array>
 </resources>

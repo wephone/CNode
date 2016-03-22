@@ -8,17 +8,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.cnode.wephone.cnode.R;
 import com.cnode.wephone.cnode.Utils.ActivitySwitcher;
 import com.cnode.wephone.cnode.Utils.CommonUtils;
 import com.cnode.wephone.cnode.Utils.constant.Params;
+import com.cnode.wephone.cnode.Utils.volley.UrlHelper;
 import com.cnode.wephone.cnode.adapter.TopicListAdapter;
 import com.cnode.wephone.cnode.entity.Topic;
+import com.cnode.wephone.cnode.entity.Topics;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.bind.DateTypeAdapter;
 import com.iwhys.mylistview.BaseListAdapter;
 import com.iwhys.mylistview.CommonListView;
 import com.iwhys.mylistview.CompatOnItemClickListener;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,7 +58,7 @@ public class TopicListFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            tab = getArguments().getString(Params.TAB);//tab
+            tab = getArguments().getString(Params.TAB);//tab 根据传进来的argument 决定tab的值
         }
     }
 
@@ -57,31 +69,33 @@ public class TopicListFragment extends BaseFragment {
 
             @Override
             public BaseListAdapter<Topic> getAdapter(Context context) {
-                return new TopicListAdapter(context);;
+                return new TopicListAdapter(context);
+                //这个是listview的适配器不是pager的适配器
             }
 
             @Override
-            public void getDataFromServer(int page) {
+            public void getDataFromServer(final int page) {//从服务器取数据
                 Map<String, Object> params = new HashMap<>();
-                params.put(Params.TAB, tab);
-                params.put(Params.LIMIT, PAGE_COUNT);
-                params.put(Params.PAGE, page);
-                String url = UrlHelper.getTopicsUrl(params);
+                params.put(Params.TAB, tab);//tab由mainactivity传入
+                params.put(Params.LIMIT, PAGE_COUNT);//15 15个就重新加载
+                params.put(Params.PAGE, page);//页码
+                String url = UrlHelper.getTopicsUrl(params);//topic是单个主题，topics是主题列表
+                //volley网络请求 StringRequest request response VolleyError
                 StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(String response) {//response应该是json
                         if (TextUtils.isEmpty(response)) {
                             listView.onGetDataFailure(page);
                             return;
                         }
-                        DBHelper.newInstance().save(tab, response);
-                        handleData(page, response, System.currentTimeMillis() / 1000);
+                        DBHelper.newInstance().save(tab, response);//保存标签和请求？
+                        handleData(page, response, System.currentTimeMillis() / 1000);//传入当前刷新的时间
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         VolleyErrorHelper.getMessage(error, sActivity);
-                        listView.onGetDataFailure(page);
+                        listView.onGetDataFailure(page);//make page final
                     }
                 });
                 VolleyHelper.addToRequestQueue(request, tab);
@@ -97,7 +111,7 @@ public class TopicListFragment extends BaseFragment {
         listView.setOnItemClickListener(new CompatOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Topic topic = (Topic) view.getTag(R.id.first_tag);
+                Topic topic = (Topic) view.getTag(R.id.first_tag);//标签
                 Bundle arguments = new Bundle();
                 arguments.putString("id", topic.getId());
                 arguments.putString("title", topic.getTitle());
@@ -106,11 +120,23 @@ public class TopicListFragment extends BaseFragment {
                 arguments.putString("create_at", CommonUtils.getTimeFormat("yyyy-MM-dd HH:mm", topic.getCreateAt()));
                 arguments.putInt("reply_count", topic.getReply_count());
                 Bundle bundle = new Bundle();
-                bundle.putString(Params.FRAGMENT_NAME, TopicDetailFragment.class.getSimpleName());
+//                bundle.putString(Params.FRAGMENT_NAME, TopicDetailFragment.class.getSimpleName());
                 bundle.putBundle(Params.ARGUMENTS, arguments);
-                ActivitySwitcher.pushDefault(sActivity, SingleInstanceActivity.class, bundle);
+//                ActivitySwitcher.pushDefault(sActivity, SingleInstanceActivity.class, bundle);
+                //先做出布局点击事件暂时先不做
             }
         });
-        return listView.getView();
+        return listView.getView();//封装好的listview布局
+    }
+    //处理获取到的数据
+    private void handleData(int page, String response, long refreshTime) {
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .registerTypeAdapter(Date.class, new DateTypeAdapter())
+                .create();
+        Topics topics = gson.fromJson(response, Topics.class);//topics可能是bean对象  topic(s)的tostring方法暂时不明确用法
+        List<Topic> topicList = topics.getData();//把json封装成topics数据 再取出真正有用的data值
+        //        List<Topic> topicList = (List<Topic>) gson.fromJson(response, Topic.class);  不行····为毛
+        listView.onGetDataSuccess(page, topicList, refreshTime);//可能这里需要的是个list
     }
 }
