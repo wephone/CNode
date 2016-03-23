@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -15,15 +14,19 @@ import com.android.volley.toolbox.StringRequest;
 import com.cnode.wephone.cnode.R;
 import com.cnode.wephone.cnode.Utils.ActivitySwitcher;
 import com.cnode.wephone.cnode.Utils.CommonUtils;
+import com.cnode.wephone.cnode.Utils.DBHelper;
 import com.cnode.wephone.cnode.Utils.constant.Params;
+import com.cnode.wephone.cnode.Utils.volley.TypeDateAdapter;
 import com.cnode.wephone.cnode.Utils.volley.UrlHelper;
+import com.cnode.wephone.cnode.Utils.volley.VolleyErrorHelper;
+import com.cnode.wephone.cnode.Utils.volley.VolleyHelper;
 import com.cnode.wephone.cnode.adapter.TopicListAdapter;
 import com.cnode.wephone.cnode.entity.Topic;
 import com.cnode.wephone.cnode.entity.Topics;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.internal.bind.DateTypeAdapter;
+//import com.google.gson.internal.bind.DateTypeAdapter;  源码里好像没有这个包import 擦 这个个是他自己写的 拜托 名字别叫一样好么....
 import com.iwhys.mylistview.BaseListAdapter;
 import com.iwhys.mylistview.CommonListView;
 import com.iwhys.mylistview.CompatOnItemClickListener;
@@ -58,7 +61,7 @@ public class TopicListFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            tab = getArguments().getString(Params.TAB);//tab 根据传进来的argument 决定tab的值
+            tab = getArguments().getString(Params.TAB);//tab 根据传进来的argument 决定tab的值 tab用于volley请求 得到不同的fragments
         }
     }
 
@@ -79,7 +82,7 @@ public class TopicListFragment extends BaseFragment {
                 params.put(Params.TAB, tab);//tab由mainactivity传入
                 params.put(Params.LIMIT, PAGE_COUNT);//15 15个就重新加载
                 params.put(Params.PAGE, page);//页码
-                String url = UrlHelper.getTopicsUrl(params);//topic是单个主题，topics是主题列表
+                String url = UrlHelper.getTopicsUrl(params);//topic是单个主题，topics是主题列表  懂了！ 5个tab 五个不同json 应该这里是根据params传入url拼接器 制造出五个不同fragments
                 //volley网络请求 StringRequest request response VolleyError
                 StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
@@ -89,7 +92,7 @@ public class TopicListFragment extends BaseFragment {
                             return;
                         }
                         DBHelper.newInstance().save(tab, response);//保存标签和请求？
-                        handleData(page, response, System.currentTimeMillis() / 1000);//传入当前刷新的时间
+                        handleData(page, response, System.currentTimeMillis() / 1000);//传入当前刷新的时间  好像是根据tab做出五个不同的fragments的
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -98,7 +101,7 @@ public class TopicListFragment extends BaseFragment {
                         listView.onGetDataFailure(page);//make page final
                     }
                 });
-                VolleyHelper.addToRequestQueue(request, tab);
+                VolleyHelper.addToRequestQueue(request, tab);//tab由传值通信的arguments得到 用于volley请求 得到不同的fragments  等等好像不是···
             }
 
             @Override
@@ -132,7 +135,7 @@ public class TopicListFragment extends BaseFragment {
     private void handleData(int page, String response, long refreshTime) {
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .registerTypeAdapter(Date.class, new DateTypeAdapter())
+                .registerTypeAdapter(Date.class, new TypeDateAdapter())//命名不应与GSON内部包DataTypeAdapter相同
                 .create();
         Topics topics = gson.fromJson(response, Topics.class);//topics可能是bean对象  topic(s)的tostring方法暂时不明确用法
         List<Topic> topicList = topics.getData();//把json封装成topics数据 再取出真正有用的data值

@@ -59,13 +59,13 @@ public class MainActivity extends baseActivity implements ViewPager.OnPageChange
         doubleClickExitHelper = new DoubleClickExitHelper(this);
         initActionBarAndDrawer();
         initLayout();
-        //所有控件加载完开始加载数据
-//        viewPager.post(new Runnable() {
-//            @Override
-//            public void run() {//runnable 放入UI线程使用
-//                refreshItem();
-//            }
-//        });
+//        所有控件加载完开始加载数据
+        viewPager.post(new Runnable() {
+            @Override
+            public void run() {//runnable 放入UI线程使用
+                refreshItem();
+            }
+        });
         IntentFilter filter = new IntentFilter(IntentAction.LOGIN);//隐式意图 通过过滤器识别intent指向哪个组件
         filter.addAction(IntentAction.NEW_TOPIC);
         registerReceiver(myReceiver, filter);//寄存器
@@ -77,7 +77,7 @@ public class MainActivity extends baseActivity implements ViewPager.OnPageChange
         //也就是说 如果你想要做一个Activity一加载完毕，就触发什么的话 完全可以用这个！！！
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {//此activity已被聚焦
-//            refreshItem();//应该是一进入就刷新的意思
+            refreshItem();//应该是一进入就刷新的意思
         }
     }
 
@@ -124,7 +124,7 @@ public class MainActivity extends baseActivity implements ViewPager.OnPageChange
         getSupportFragmentManager().beginTransaction().add(R.id.left_menu, leftMenu).commit();//动态加载左侧菜单fragment
         String[] columnTabs = getResources().getStringArray(R.array.column_tab);//获得标签栏数组
         ArrayList<TopicListFragment> fragments = new ArrayList<>();
-        for (int i = 0; i < columnTabs.length; i++) {//应该是通过bundle数据 改变viewpager fragment的显示
+        for (int i = 0; i < columnTabs.length; i++) {//应该是通过bundle数据 改变viewpager fragment的显示  最终得出五个不同的fragment 整个fragments数组放入viewpager适配器中即可
             Bundle bundle = new Bundle();
             bundle.putString(Params.TAB, columnTabs[i]);
             TopicListFragment fragment = (TopicListFragment) SimpleFactory.createFragment(TopicListFragment.class.getSimpleName(), bundle);////bundle用于argument 传值通信
@@ -190,7 +190,7 @@ public class MainActivity extends baseActivity implements ViewPager.OnPageChange
     //刷新页面
     private void refreshItem() {
         updateTabStatus();
-//        pagerAdapter.refreshItem(viewPager.getCurrentItem());
+        pagerAdapter.refreshItem(viewPager.getCurrentItem());
     }
 
     //更新标签状态
@@ -211,7 +211,7 @@ public class MainActivity extends baseActivity implements ViewPager.OnPageChange
             if (action.equals(IntentAction.LOGIN)) {//暂时理解为广播发出后，若已登陆则左侧菜单更改布局
                 leftMenu.setUserInfo();
             } else if (action.equals(IntentAction.NEW_TOPIC)) {
-//                pagerAdapter.getItem(0).refresh(true);
+                pagerAdapter.getItem(0).refresh(true);
             }
         }
     };

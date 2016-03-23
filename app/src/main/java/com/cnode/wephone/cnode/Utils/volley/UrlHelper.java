@@ -39,9 +39,12 @@ public class UrlHelper {
                 builder.append(key);
                 builder.append("=");
                 builder.append(params.get(key));
+                //https://cnodejs.org/api/v1/topics?limit=15&page=1&tab=all
+                //https://cnodejs.org/api/v1/topics?limit=15&page=1&tab=good
             }
         }
         return builder.toString();
+        //for(int i:numArray) 等同于 for(int i;i<numArray.length;i++)
     }
 
     /**
@@ -51,4 +54,11 @@ public class UrlHelper {
     public static String getTopicsUrl(Map<String, Object> params){//params tab 15 page
         return resolve(TOPICS, params);
     }
+//    遍历输出map中的键
+//
+//    for (Integer key : map.keySet()) {
+//
+//        System.out.println("Key = " + key);
+//
+//    }
 }
