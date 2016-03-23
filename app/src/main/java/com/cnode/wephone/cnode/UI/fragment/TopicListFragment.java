@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -46,6 +48,7 @@ public class TopicListFragment extends BaseFragment {
     private final static int PAGE_COUNT = 15;
     private String tab;
     private CommonListView<Topic> listView;
+    //命名一个drawable包 drawable-xhdpi 图片的分辨率会变高 导致不会太大而变得太丑！（点树状图的project选项可以看到各个分辨率的包
 
     /**
      * 刷新
@@ -127,6 +130,7 @@ public class TopicListFragment extends BaseFragment {
                 bundle.putBundle(Params.ARGUMENTS, arguments);
 //                ActivitySwitcher.pushDefault(sActivity, SingleInstanceActivity.class, bundle);
                 //先做出布局点击事件暂时先不做
+                Toast.makeText(getContext(),"下一步做点击事件",Toast.LENGTH_SHORT).show();
             }
         });
         return listView.getView();//封装好的listview布局
