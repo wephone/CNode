@@ -17,10 +17,10 @@ public class Topics {
         this.data = data;
     }
 
-    @Override
-    public String toString() {
-        return "Topics{" +
-                "data=" + data +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Topics{" +
+//                "data=" + data +
+//                '}';
+//    }好像tostring方法注释掉也没事
 }

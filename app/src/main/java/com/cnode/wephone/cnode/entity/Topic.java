@@ -116,20 +116,20 @@ public class Topic {
         this.createAt = createAt;
     }
 
-    public String toString(){
-        return "Topic{" +
-                "id='" + id + '\'' +
-                ", tab='" + tab + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", author=" + author +
-                ", author_id='" + author_id + '\'' +
-                ", good=" + good +
-                ", top=" + top +
-                ", reply_count=" + reply_count +
-                ", visit_count=" + visit_count +
-                ", lastReplyAt=" + lastReplyAt +
-                ", createAt=" + createAt +
-                '}';//暂时不知道这是个什么鬼
-    }
+//    public String toString(){
+//        return "Topic{" +
+//                "id='" + id + '\'' +
+//                ", tab='" + tab + '\'' +
+//                ", title='" + title + '\'' +
+//                ", content='" + content + '\'' +
+//                ", author=" + author +
+//                ", author_id='" + author_id + '\'' +
+//                ", good=" + good +
+//                ", top=" + top +
+//                ", reply_count=" + reply_count +
+//                ", visit_count=" + visit_count +
+//                ", lastReplyAt=" + lastReplyAt +
+//                ", createAt=" + createAt +
+//                '}';//暂时不知道这是个什么鬼
+//    }
 }

@@ -94,13 +94,13 @@ public class TopicListFragment extends BaseFragment {
                             listView.onGetDataFailure(page);
                             return;
                         }
-                        DBHelper.newInstance().save(tab, response);//保存标签和请求？
+                        DBHelper.newInstance().save(tab, response);//保存标签和请求即json
                         handleData(page, response, System.currentTimeMillis() / 1000);//传入当前刷新的时间  好像是根据tab做出五个不同的fragments的
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        VolleyErrorHelper.getMessage(error, sActivity);
+                        VolleyErrorHelper.getMessage(error, sActivity);//判断是哪一种错误 返回相应错误信息
                         listView.onGetDataFailure(page);//make page final
                     }
                 });
@@ -108,7 +108,7 @@ public class TopicListFragment extends BaseFragment {
             }
 
             @Override
-            public void getDataFromLocal() {
+            public void getDataFromLocal() {//我觉得吧 数据库用于刚开启，网络尚未刷新时，或者断网无法刷新时，先用数据库里的json 网络加载过来后就替换掉 不然断网时什么也看不到
                 String[] data = DBHelper.newInstance().get(tab);
                 if (data == null) return;
                 handleData(1, data[1], Long.valueOf(data[0]));
@@ -138,9 +138,10 @@ public class TopicListFragment extends BaseFragment {
     //处理获取到的数据
     private void handleData(int page, String response, long refreshTime) {
         Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .registerTypeAdapter(Date.class, new TypeDateAdapter())//命名不应与GSON内部包DataTypeAdapter相同
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)//好像是设置文件名的意思
+                .registerTypeAdapter(Date.class, new TypeDateAdapter())//命名不应与GSON内部包DataTypeAdapter相同  这里应该是格式化时间
                 .create();
+        //Gson支持定义对指定的类型来做个性化的序列化，即根据自己想要的格式更改Json序列化和反序列化，大体就是Gson里面有个registerTypeAdapter方法
         Topics topics = gson.fromJson(response, Topics.class);//topics可能是bean对象  topic(s)的tostring方法暂时不明确用法
         List<Topic> topicList = topics.getData();//把json封装成topics数据 再取出真正有用的data值
         //        List<Topic> topicList = (List<Topic>) gson.fromJson(response, Topic.class);  不行····为毛
