@@ -8,6 +8,7 @@ import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cnode.wephone.cnode.R;
@@ -18,6 +19,7 @@ import com.cnode.wephone.cnode.entity.Topics;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.iwhys.mylistview.BaseListAdapter;
 import com.iwhys.mylistview.ViewHolder;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by ASUS on 2016/3/21.
@@ -55,7 +57,8 @@ public class TopicListAdapter extends BaseListAdapter<Topic> {
         TextView author = viewHolder.getView(R.id.author);
         TextView last_reply_at = viewHolder.getView(R.id.last_reply_at);
         TextView title = viewHolder.getView(R.id.title);
-        SimpleDraweeView avatar = viewHolder.getView(R.id.avatar);
+//        SimpleDraweeView avatar = viewHolder.getView(R.id.avatar);
+        ImageView avatar=viewHolder.getView(R.id.avatar);
         TextView replyCount = viewHolder.getView(R.id.reply_count);
         TextView visitCount = viewHolder.getView(R.id.visit_count);
         author.setText(topic.getAuthor().getLoginname());
@@ -68,7 +71,8 @@ public class TopicListAdapter extends BaseListAdapter<Topic> {
         last_reply_at.setText(CommonUtils.commonTime(topic.getLastReplyAt()));
         title.setText(topic.getTitle());
         String avatarUrl = topic.getAuthor().getAvatar_url();
-        avatar.setImageURI(Uri.parse(UrlHelper.resolve(UrlHelper.HOST, avatarUrl)), context);
+//        avatar.setImageURI(Uri.parse(UrlHelper.resolve(UrlHelper.HOST, avatarUrl)), context);
+        Picasso.with(context).load(avatarUrl).into(avatar);
         replyCount.setText(topic.getReply_count() + "");
         visitCount.setText(topic.getVisit_count() + "");
         view.setTag(R.id.first_tag, topic);

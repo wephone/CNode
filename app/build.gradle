@@ -37,4 +37,5 @@ dependencies {
     compile project(':library-mylistview')
     compile project(':library-qrcode')
     compile project(':library-swipeback')
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
