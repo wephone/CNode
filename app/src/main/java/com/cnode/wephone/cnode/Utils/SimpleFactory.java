@@ -31,7 +31,7 @@ public class SimpleFactory {
             path.append(directoryName);
             path.append(".");
         }
-        path.append(fragmentName);//com.iwhys.cnode.ui.fragment.CaptureFragment
+        path.append(fragmentName);//com.iwhys.cnode.ui.fragment.Capture Fragment
         String className = path.toString();
         Class<?> cls = CommonUtils.getClassByString(className);
         if (cls!=null){

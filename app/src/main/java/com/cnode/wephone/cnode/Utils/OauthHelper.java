@@ -8,9 +8,11 @@ import android.text.TextUtils;
 
 import com.cnode.wephone.cnode.App;
 import com.cnode.wephone.cnode.R;
-import com.cnode.wephone.cnode.UI.activity.SingleFragmentActivity;
-import com.cnode.wephone.cnode.UI.fragment.CaptureFragment;
+
+import com.cnode.wephone.cnode.UI.activity.CaptureActivity;
 import com.cnode.wephone.cnode.Utils.constant.Params;
+
+
 
 /**
  * Created by ASUS on 2016/3/17.
@@ -42,8 +44,8 @@ public class OauthHelper {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Bundle bd = new Bundle();
-                        bd.putString(Params.FRAGMENT_NAME, CaptureFragment.class.getSimpleName());//传入键值对 key：fragment名字-value：CaptureFragment
-                        ActivitySwitcher.pushDefault(context, SingleFragmentActivity.class, bd);
+//                        bd.putString(Params.FRAGMENT_NAME, Capture Fragment.class.getSimpleName());//传入键值对 key：fragment名字-value：Capture Fragment
+                        ActivitySwitcher.pushDefault(context, CaptureActivity.class, bd);
                     }
                 });
         builder.show();

@@ -32,6 +32,10 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"/>
+        <!--原文链接：http://www.jianshu.com/p/28006c6232c0 只能是横屏一维二维都能识别-->
+        <activity android:name=".UI.activity.CaptureActivity">
+        </activity>
+
         <meta-data android:value="56e7f02ee0f55a04d60011a1" android:name="UMENG_APPKEY"/>
         <meta-data android:value="wephone" android:name="UMENG_CHANNEL"/>
     </application>

@@ -22,8 +22,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.cnode.wephone.cnode.UI.activity.CaptureActivity;
 import com.cnode.wephone.cnode.UI.baseActivity;
 import com.cnode.wephone.cnode.UI.fragment.LeftMenuFragment;
 import com.cnode.wephone.cnode.UI.fragment.TopicListFragment;
@@ -35,6 +37,9 @@ import com.cnode.wephone.cnode.Utils.SimpleFactory;
 import com.cnode.wephone.cnode.Utils.constant.IntentAction;
 import com.cnode.wephone.cnode.Utils.constant.Params;
 import com.cnode.wephone.cnode.adapter.ColumnPagerAdapter;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 
 import java.util.ArrayList;
 
