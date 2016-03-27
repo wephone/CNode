@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.cnode.wephone.cnode.App;
+import com.cnode.wephone.cnode.MainActivity;
 import com.cnode.wephone.cnode.R;
 
 import com.cnode.wephone.cnode.UI.activity.CaptureActivity;

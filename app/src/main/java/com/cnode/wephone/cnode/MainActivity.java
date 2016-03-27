@@ -184,7 +184,7 @@ public class MainActivity extends baseActivity implements ViewPager.OnPageChange
         drawerLayout.setDrawerListener(drawerToggle);
     }
     //切换抽屉菜单 如果关了就开 开了就关
-    private void toggleDrawer() {
+    public void toggleDrawer() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
