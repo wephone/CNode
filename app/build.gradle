@@ -33,12 +33,11 @@ dependencies {
     //json解析
     compile 'com.google.code.gson:gson:2.3.1'
     //图片下载
-    compile 'com.facebook.fresco:fresco:0.1.0'
     compile project(':library-mylistview')
     compile project(':library-swipeback')
     compile 'com.squareup.picasso:picasso:2.5.2'
     //二维码扫描库
     compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     compile 'com.google.zxing:core:3.2.0'
-
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 }

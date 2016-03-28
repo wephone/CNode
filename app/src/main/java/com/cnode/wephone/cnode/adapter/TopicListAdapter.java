@@ -16,7 +16,6 @@ import com.cnode.wephone.cnode.Utils.CommonUtils;
 import com.cnode.wephone.cnode.Utils.volley.UrlHelper;
 import com.cnode.wephone.cnode.entity.Topic;
 import com.cnode.wephone.cnode.entity.Topics;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.iwhys.mylistview.BaseListAdapter;
 import com.iwhys.mylistview.ViewHolder;
 import com.squareup.picasso.Picasso;

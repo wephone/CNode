@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.cnode.wephone.cnode.Utils.CommonUtils;
 import com.cnode.wephone.cnode.Utils.constant.Params;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -39,7 +38,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        Fresco.initialize(instance);//这里解析过Fresco了
+//        Fresco.initialize(instance);//这里解析过Fresco了
         access_token = CommonUtils.getStringFromLocal(Params.ACCESS_TOKEN);//先从sharepreference里取出 看看有没有上次的登陆信息 有的话 下次就不用登陆
         //禁止默认统计
         MobclickAgent.openActivityDurationTrack(false);//为毛这里禁止默认统计？

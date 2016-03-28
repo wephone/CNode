@@ -3,6 +3,7 @@ package com.cnode.wephone.cnode.UI.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -72,14 +73,19 @@ public class CaptureActivity extends Activity {
                                 CommonUtils.saveStringToLocal(Params.AVATAR_URL, avatar_url);
                                 CommonUtils.showToast("正在登陆...");
 //                                sActivity.sendBroadcast(new Intent(IntentAction.LOGIN));
+                                sendBroadcast(new Intent(IntentAction.LOGIN));//发了广播之后 不用关掉左侧菜单栏 名字头像就会更改了
 // 测试下finish后 请求还会不会被加入到请求队列中 我觉得应该会 不然就不会变名字了
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }else {
-                        CommonUtils.showToast("非登陆条码");
-                        VolleyHelper.cancelPendingRequests(access_token);
+                        if (access_token!=null){
+                            CommonUtils.showToast("非登陆条码");
+                            VolleyHelper.cancelPendingRequests(access_token);//Cannot cancelAll with a null tag
+                        }else {
+                            finish();
+                        }
                     }
                 }
             },new Response.ErrorListener() {
@@ -89,8 +95,12 @@ public class CaptureActivity extends Activity {
                     if (error instanceof TimeoutError) {
                         CommonUtils.showToast(R.string.generic_server_down);
                     } else {
-                        CommonUtils.showToast("非登陆条码");//扫别的码时 是错误response
-                        VolleyHelper.cancelPendingRequests(access_token);
+                        if (access_token!=null){
+                            VolleyHelper.cancelPendingRequests(access_token);//Cannot cancelAll with a null tag 避免按下强制返回后accesstoken为空导致错误
+                            CommonUtils.showToast("非登陆条码");//扫别的码时 是错误response
+                        }else {
+                            finish();
+                        }
                     }
                 }
             });
@@ -101,4 +111,11 @@ public class CaptureActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+//            finish();
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 }

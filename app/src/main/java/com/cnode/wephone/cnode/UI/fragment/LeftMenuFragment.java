@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,16 +19,16 @@ import com.cnode.wephone.cnode.Utils.CommonUtils;
 import com.cnode.wephone.cnode.Utils.OauthHelper;
 import com.cnode.wephone.cnode.Utils.constant.Params;
 import com.cnode.wephone.cnode.Utils.volley.UrlHelper;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.iwhys.mylistview.CompatOnItemClickListener;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by ASUS on 2016/3/15.
  *左侧抽屉菜单栏布局，由于还要登陆，所以不可以写死
  */
 public class LeftMenuFragment extends BaseFragment implements View.OnClickListener{
-    private SimpleDraweeView avatar;//Facebook开发的图片加载库  暂时先跳过XML文件，有空学习下fresco相关文档
-//    private ImageView avatar;
+//    private SimpleDraweeView avatar;//Facebook开发的图片加载库  暂时先跳过XML文件，有空学习下fresco相关文档
+    private ImageView avatar;
     private TextView loginname;
 
     @Override
@@ -36,8 +37,8 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.fragment_left_menu1, container, false);//App类里使用过了 Fresco.initialize（context）方法
 //        view.isInEditMode();
         view.findViewById(R.id.user_info).setOnClickListener(this);
-        avatar = (SimpleDraweeView) view.findViewById(R.id.avatar);
-//        avatar = (ImageView) view.findViewById(R.id.avatar);
+//        avatar = (SimpleDraweeView) view.findViewById(R.id.avatar);
+        avatar = (ImageView) view.findViewById(R.id.avatar);
         loginname = (TextView) view.findViewById(R.id.loginname);
         setUserInfo();
         ListView listView = (ListView) view.findViewById(R.id.list_view);
@@ -111,7 +112,12 @@ public class LeftMenuFragment extends BaseFragment implements View.OnClickListen
     public void setUserInfo(){
         String name = CommonUtils.getStringFromLocal(Params.LOGIN_NAME);//懂了，这里取值，Utils力有值就取，没值的话isempty（）返回 true--直接getstring到“点击登录”
         String avatar_url = CommonUtils.getStringFromLocal(Params.AVATAR_URL);
-        avatar.setImageURI(Uri.parse(UrlHelper.resolve(UrlHelper.HOST, avatar_url)), sActivity);
+//        avatar.setImageURI(Uri.parse(UrlHelper.resolve(UrlHelper.HOST, avatar_url)), sActivity);
+        if (!TextUtils.isEmpty(avatar_url)){//好像不能用！=null！！！不能用！=null
+            Picasso.with(getContext()).load(avatar_url).into(avatar);
+        }else {
+            avatar.setImageResource(R.drawable.icon_person_default);
+        }
         loginname.setText(TextUtils.isEmpty(name) ? getString(R.string.login) : name);//name为空的话 设置为“点击登录”
     }
 }
